@@ -5,7 +5,7 @@ using System;
 
     internal class Program { 
 
-
+          static string[] actions = new string[] { "[1]Add Beads", "[2]Add Charms", "[3]Remove Beads Stocks", "[4]Remove Charm Stocks", "[5]View Stocks", "[6]Exit" };
         static void Main(string[] args)
         {
             Console.WriteLine("CharmBeads.alih INVENTORY");
