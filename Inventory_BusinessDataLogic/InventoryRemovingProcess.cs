@@ -14,8 +14,6 @@ namespace Inventory_BusinessDataLogic
         public static string charmName;
         public static int beads = 0;  // Total bead count
         public static int charms = 0; // Total charm count
-        public static int addBeadStocks;
-        public static int addCharmStocks;
 
         public static bool UpdateBeadStocks(Actions userAction, int amountDeduct)
         {
@@ -26,20 +24,17 @@ namespace Inventory_BusinessDataLogic
                 {
                     string[] parts = beadStocks[i].Split(':');  // Split "BeadName: Quantity"
                     string name = parts[0].Trim();
-                    int stock = Convert.ToInt16(parts[1].Trim());
-
-                    return true;
 
                     if (name.Equals(beadsName, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (userAction == Actions.RemoveBeadStocks && amountDeduct <= stock)
+                        if (userAction == Actions.RemoveBeadStocks && amountDeduct <= beads)
                         {
-                            stock -= amountDeduct; // Subtract stock
-                            return true;
+                            beads -= amountDeduct; // Subtract stock
 
-                            if (stock > 0)
+
+                            if (beads > 0)
                             {
-                                beadStocks[i] = $"{name}: {stock}";  // Update list
+                                beadStocks[i] = $"{name}: {beads}";  // Update list
                             }
                             else
                             {
@@ -72,20 +67,17 @@ namespace Inventory_BusinessDataLogic
                 {
                     string[] parts = charmStocks[i].Split(':');  // Split "CharmName: Quantity"
                     string name = parts[0].Trim();
-                    int stock = Convert.ToInt16(parts[1].Trim());
-
-                    return true;
 
                     if (name.Equals(charmName, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (userAction == Actions.RemoveCharmStocks && amountDeduct <= stock)
+                        if (userAction == Actions.RemoveCharmStocks && amountDeduct <= charms)
                         {
-                            stock -= amountDeduct; // Subtract stock
-                            return true;
+                            charms -= amountDeduct; // Subtract stock
 
-                            if (stock > 0)
+
+                            if (charms > 0)
                             {
-                                charmStocks[i] = $"{name}: {stock}";  // Update list
+                                charmStocks[i] = $"{name}: {charms}";  // Update list
                             }
                             else
                             {
@@ -118,6 +110,5 @@ namespace Inventory_BusinessDataLogic
         {
             charmName = Console.ReadLine();
         }
-       }
     }
-
+}
