@@ -1,16 +1,9 @@
-﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
 using System.ComponentModel.Design;
 using Inventory_BusinessDataLogic;
 using System;
 
-namespace Test
-{
-    internal class Program
-    {
-        static string[] actions = new string[]
-        {
-            "[1] Add Beads", "[2] Add Charms", "[3] Remove Bead Stocks", "[4] Remove Charm Stocks", "[5] View Stocks", "[6] Exit"
-        };
+    internal class Program { 
 
 
         static void Main(string[] args)
