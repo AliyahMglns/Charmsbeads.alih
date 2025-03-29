@@ -24,26 +24,24 @@ namespace Inventory_BusinessDataLogic
                 {
                     string[] parts = beadStocks[i].Split(':');  // Split "BeadName: Quantity"
                     string name = parts[0].Trim();
-                    beads = int.Parse(parts[1].Trim());
+                    beads = int.Parse(parts[1].Trim()); //Convert quantity to integer
                     
                     if (name.Equals(beadsName, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (userAction == Actions.RemoveBeadStocks && amountDeduct <= beads)
+                        if (userAction == Actions.RemoveBeadStocks && amountDeduct <= beads) //ensure we have enough stock to remove
                         {
                             beads -= amountDeduct; // Subtract stock
 
 
                             if (beads > 0)
                             {
-                                beadStocks[i] = $"{name}: {beads}";  // Update list
+                                beadStocks[i] = $"{name}: {beads}";  // Update the beadStocks in the list
                             }
                             else
                             {
                                 beadStocks.RemoveAt(i);  // Remove if stock is 0
 
-                                beads -= amountDeduct;  // Update total count
-
-                                return true;
+                                return true; //successfully updated beadStocks
                             }
 
                         }
@@ -83,8 +81,6 @@ namespace Inventory_BusinessDataLogic
                             else
                             {
                                 charmStocks.RemoveAt(i);  // Remove if stock is 0
-
-                                charms -= amountDeduct;  // Update total count
 
                                 return true;
                             }
