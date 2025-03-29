@@ -24,7 +24,8 @@ namespace Inventory_BusinessDataLogic
                 {
                     string[] parts = beadStocks[i].Split(':');  // Split "BeadName: Quantity"
                     string name = parts[0].Trim();
-
+                    beads = int.Parse(parts[1].Trim());
+                    
                     if (name.Equals(beadsName, StringComparison.OrdinalIgnoreCase))
                     {
                         if (userAction == Actions.RemoveBeadStocks && amountDeduct <= beads)
