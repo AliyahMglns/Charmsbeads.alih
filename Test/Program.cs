@@ -1,130 +1,166 @@
-﻿namespace Test {
+﻿using Microsoft.VisualBasic;
+using System.ComponentModel.Design;
+using Inventory_BusinessDataLogic;
+using System;
 
-    internal class Program { 
+namespace Test
+{
+    internal class Program
+    {
+        static string[] actions = new string[]
+        {
+            "[1] Add Beads", "[2] Add Charms", "[3] Remove Bead Stocks", "[4] Remove Charm Stocks", "[5] View Stocks", "[6] Exit"
+        };
+
 
         static void Main(string[] args)
         {
-            Console.WriteLine("CharmBeads.alih SHOP");
+            Console.WriteLine("CharmBeads.alih INVENTORY");
+            Console.WriteLine("\nACTIONS");
 
-            string uname = "alih", upass = "beads";
+            displayActions();
+            int userInput = getUserActions();
 
-            Console.WriteLine(uname);
-            Console.WriteLine(upass);
 
-            Console.WriteLine("Enter Username: ");
-            string userName = Convert.ToString(Console.ReadLine());
-            Console.WriteLine("Enter Password: ");
-            string userPass = Convert.ToString(Console.ReadLine());
-
-            if (userName == uname && userPass == upass)
+            while (userInput != 6) // 6 is Exit
             {
-
-                Console.WriteLine("Successfully LogIn!!");
-
-                Console.WriteLine("What are you looking for?");
-                Console.WriteLine("Search: ");
-
-                string[] actions = new string[] { "[1}Shop, {2}Order, {3}Exit" };
-
-                Console.WriteLine("ACTIONS");
-
-                foreach (var action in actions)
-                {
-                    Console.WriteLine(action);
-                }
-                Console.Write("Enter Action: ");
-
-                int userAction = Convert.ToInt16(Console.ReadLine());
-
-                switch (userAction)
+                switch (userInput)
                 {
                     case 1:
-                        Console.WriteLine("WELCOME TO THE CHARMBEADS SHOP!" + "\n" + "\n" + "*****PICTURE*****" 
-                            + "\n" + "Phone Charm - ₱75");
-
-                        Console.WriteLine("*****PICTURE*****" + "\n" + "Keychain - ₱115");
-
-                        Console.WriteLine("*****PICTURE*****" + "\n" + "Bracelet - ₱135");
-
+                        addBeads();
                         break;
-
                     case 2:
-                        Console.Write("Enter the product: ");
-                        string toOrder = Convert.ToString(Console.ReadLine());
-
-                        string phoneCharm = Convert.ToString(Console.ReadLine());
-                        string keyChain = Convert.ToString(Console.ReadLine());
-                        string braceLet = Convert.ToString(Console.ReadLine());
-
-                        int pcharm = 75, kchain = 115, bl = 135;
-
-                        if (toOrder == phoneCharm)
-                        {
-
-                            Console.WriteLine("Is Phone Charm - ₱75 you want to buy? ");
-                            string confirmation = Convert.ToString(Console.ReadLine());
-
-                            if (confirmation == "yes")
-                            {
-                                Console.WriteLine("Phone Charm - ₱75" + "\n" + "successfully ordered!");
-                            }
-
-                            else
-                            {
-                                Console.WriteLine(toOrder);
-                            }
-                        }
-
-                        else if (toOrder == keyChain)
-                        {
-
-                            Console.WriteLine("Is Keychain - ₱115 you want to buy? ");
-                            string confirmation = Convert.ToString(Console.ReadLine());
-
-                            if (confirmation == "yes")
-                            {
-                                Console.WriteLine("Keychain - ₱115" + "\n" + "successfully ordered!");
-                            }
-
-                            else
-                            {
-                                Console.WriteLine(toOrder);
-                            }
-                        }
-
-                        else if (toOrder == braceLet)
-                        {
-
-                            Console.WriteLine("Is Bracelet - ₱135 you want to buy? ");
-                            string confirmation = Convert.ToString(Console.ReadLine());
-
-                            if (confirmation == "yes")
-                            {
-                                Console.WriteLine("Keychain - ₱135" + "\n" + "successfully ordered!");
-                            }
-
-                            else
-                            {
-                                Console.WriteLine(toOrder);
-                            }
-                          }
-
-                        else
-                        {
-                            Console.WriteLine("No more other than the 3 products");
-                        }
-
+                        addCharms();
                         break;
-
                     case 3:
-                        Console.WriteLine("Exit");
+                        removeBeadsStocks();
+                        break;
+                    case 4:
+                        removeCharmStocks();
+                        break;
+                    case 5:
+                        viewStocks();
                         break;
                     default:
+                        Console.WriteLine("Invalid Number, please only enter number 1-6.");
                         break;
                 }
 
+                displayActions();
+                userInput = getUserActions();
             }
-            else
+
+            Console.WriteLine("Exiting...");
+        }
+
+        static int getUserActions()
+        {
+            Console.WriteLine("[Enter Input]: ");
+            int userAction = Convert.ToInt16(Console.ReadLine());
+
+            return userAction;
+        }
+
+        static void displayActions()
+        {
+            foreach (var action in actions)
             {
-                Console.WriteLine("Incorrect Password. Try again.");
+                Console.WriteLine(action);
             }
+            Console.WriteLine("______________________________________");
+            Console.Write("\nEnter Action: ");
+        }
+
+        static void addBeads()
+        {
+            Console.Write("\nBEADS NAME AND COLOR: ");
+            InventoryRemovingProcess.setBeadsName();
+
+            Console.Write("\nADD OR RESTOCK AMOUNT OF BEAD/S: ");
+            int addBeadStocks = Convert.ToInt16(Console.ReadLine());
+            InventoryRemovingProcess.beadStocks.Add($"{InventoryRemovingProcess.charmName}: {addBeadStocks}");
+
+            InventoryRemovingProcess.beads += addBeadStocks;
+            Console.WriteLine($"You have added {addBeadStocks} pcs. of {InventoryRemovingProcess.beadsName} beads successfully!");
+            Console.WriteLine("______________________________________ \n");
+            
+
+
+        }
+
+        static void addCharms()
+        {
+            Console.Write("\nCHARM NAME AND CLASSIFICATION: ");
+            InventoryRemovingProcess.setCharmsName();
+            Console.Write("\nADD OR RESTOCK AMOUNT OF CHARM/S: ");
+            int addCharmStocks = Convert.ToInt16(Console.ReadLine());
+            InventoryRemovingProcess.charmStocks.Add($"{InventoryRemovingProcess.charmName}: {addCharmStocks}");
+
+            InventoryRemovingProcess.charms += addCharmStocks;
+            Console.WriteLine($"You have added {addCharmStocks} pcs. of {InventoryRemovingProcess.charmName} charm/s successfully!");
+            Console.WriteLine("______________________________________ \n");
+        }
+
+        static void viewStocks()
+        {
+            foreach (var beadstocks in InventoryRemovingProcess.beadStocks)
+            {
+                Console.WriteLine(addBeads);
+            }
+
+            foreach (var charmStocks in InventoryRemovingProcess.charmStocks)
+            {
+                Console.WriteLine(charmStocks);
+            }
+            Console.WriteLine($"Total Beads in Stock: {InventoryRemovingProcess.beads}");
+            Console.WriteLine($"Total Charms in Stock: {InventoryRemovingProcess.charms}");
+
+            int totalStocks = InventoryRemovingProcess.charms + InventoryRemovingProcess.beads;
+            Console.WriteLine("Total Stocks: " + totalStocks);
+            Console.WriteLine("______________________________________ \n");
+        }
+        
+        static void removeBeadsStocks()
+        {
+            Console.Write("----------------------------------------------");
+            Console.Write("\nEnter bead name: ");
+            InventoryRemovingProcess.setBeadsName();
+
+            Console.Write("Enter amount of beads to remove: ");
+            int removeAmt = Convert.ToInt16(getUserActions());
+
+            InventoryRemovingProcess.UpdateBeadStocks(Actions.RemoveBeadStocks, removeAmt);
+
+            if (!InventoryRemovingProcess.UpdateBeadStocks(Actions.RemoveBeadStocks, removeAmt))
+            {
+                Console.WriteLine($"{removeAmt} {InventoryRemovingProcess.beadsName} beads removed successfully.");
+
+
+            }
+        }
+
+
+        static void removeCharmStocks()
+            {
+            Console.Write("----------------------------------------------");
+            Console.Write("\nEnter charm name: ");
+            InventoryRemovingProcess.setCharmsName();
+
+            Console.Write("Enter amount of charms to remove: ");
+            int removeAmt = Convert.ToInt16(getUserActions());
+
+            InventoryRemovingProcess.UpdateCharmStocks(Actions.RemoveCharmStocks, removeAmt);
+
+            if (!InventoryRemovingProcess.UpdateCharmStocks(Actions.RemoveCharmStocks, removeAmt))
+            {
+                Console.WriteLine($"{removeAmt} {InventoryRemovingProcess.charmName} beads removed successfully.");
+
+
+            }
+        }
+        
+    }
+   }
+    
+  
+
