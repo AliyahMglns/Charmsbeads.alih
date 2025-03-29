@@ -124,8 +124,6 @@ internal class Program
         Console.Write("Enter amount of beads to remove: ");
         int removeAmt = Convert.ToInt16(getUserActions());
 
-        InventoryRemovingProcess.UpdateBeadStocks(Actions.RemoveBeadStocks, removeAmt);
-
         if (!InventoryRemovingProcess.UpdateBeadStocks(Actions.RemoveBeadStocks, removeAmt))
         {
             Console.WriteLine($"{removeAmt} {InventoryRemovingProcess.beadsName} beads removed successfully.");
@@ -143,8 +141,6 @@ internal class Program
 
         Console.Write("Enter amount of charms to remove: ");
         int removeAmt = Convert.ToInt16(getUserActions());
-
-        InventoryRemovingProcess.UpdateCharmStocks(Actions.RemoveCharmStocks, removeAmt);
 
         if (!InventoryRemovingProcess.UpdateCharmStocks(Actions.RemoveCharmStocks, removeAmt))
         {
