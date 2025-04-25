@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Program;
+using static InventorySupplies;
 
 namespace Test
 {
@@ -98,14 +99,17 @@ namespace Test
             Console.Write($"Enter amount to add: ");
             int.TryParse(Console.ReadLine(), out int qty);
 
-            inventoryService.AddItem(type, name, qty);
+            var stockList = type == "bead" ? ItemStock.BeadStocks : ItemStock.CharmStocks;
+            var existing = stockList.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-            if (type == "bead")
-                accountService.UpdateBeads(loggedInAccount, ItemStock.BeadStocks.Sum(b => b.Quantity));
+            if (existing != null)
+            {
+                existing.Quantity += qty;
+            }
             else
-                accountService.UpdateCharms(loggedInAccount, ItemStock.CharmStocks.Sum(c => c.Quantity));
-
-            Console.WriteLine($"Added {qty} {name} {type}(s).\n");
+            {
+                stockList.Add(new InventorySupplies(name, qty));
+            }
         }
 
         private void RemoveItem(string label)

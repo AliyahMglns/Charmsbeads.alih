@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static InventorySupplies;
 
 namespace Inventory_BusinessDataLogic
 {
@@ -45,8 +46,10 @@ namespace Inventory_BusinessDataLogic
             return type.ToLower() == "bead" ? ItemStock.BeadStocks : ItemStock.CharmStocks;
         }
 
-        public int GetTotalStocks() => ItemStock.BeadStocks.Sum(i => i.Quantity) + ItemStock.CharmStocks.Sum(i => i.Quantity);
+        public int GetTotalStocks()
+        {
+            return ItemStock.BeadStocks.Sum(i => i.Quantity) + ItemStock.CharmStocks.Sum(i => i.Quantity);
+        }
+      }
     }
-    
- }
     

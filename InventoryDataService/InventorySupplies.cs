@@ -16,5 +16,11 @@ public class InventorySupplies
         Name = name;
         Quantity = quantity;
     }
-
+    public static class ItemStock
+    {
+        
+        public static List<InventorySupplies> BeadStocks { get; private set; } = new();
+        public static List<InventorySupplies> CharmStocks { get; private set; } = new();
+    }
+   
 }
