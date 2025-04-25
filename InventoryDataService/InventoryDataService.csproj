@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Inventory_BusinessDataLogic\Inventory_BusinessDataLogic.csproj" />
-  </ItemGroup>
-
 </Project>

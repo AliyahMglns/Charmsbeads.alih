@@ -11,10 +11,9 @@ namespace InventoryBusinessDataLogic
     public class AccountService
     {
         private List<InventoryDataService.InventoryAccount> accounts = new();
-
         public AccountService()
         {
-            accounts.Add(new InventoryService
+            accounts.Add(new InventoryAccount
             {
                 Number = "000-111-222",
                 Pin = "1111",
@@ -28,7 +27,7 @@ namespace InventoryBusinessDataLogic
             return accounts.Any(a => a.Number == number && a.Pin == pin);
         }
 
-        public InventoryService GetAccount(string number)
+        public InventoryAccount GetAccount(string number)
         {
             return accounts.FirstOrDefault(a => a.Number == number);
         }
@@ -43,6 +42,11 @@ namespace InventoryBusinessDataLogic
         {
             var acc = GetAccount(number);
             if (acc != null) acc.Charms = charms;
+        }
+
+        public void UpdateBeads(string loggedInAccount, object value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

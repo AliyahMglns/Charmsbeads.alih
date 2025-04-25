@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InventoryDataService\InventoryDataService.csproj" />
+  </ItemGroup>
+
 </Project>

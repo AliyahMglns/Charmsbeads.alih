@@ -1,18 +1,17 @@
-using InventoryBusinessDataLogic;
+using Inventory_BusinessDataLogic;
 using System;
 using System.Runtime.CompilerServices;
 using System.Transactions;
 using Test;
 internal class Program
 {
+    public static string[] actions = new string[] { "[1] Add Beads, [2] Add Charms, [3] Remove Bead Stocks, [4] Remove Charm Stocks, [5] View Stocks" };
     public static void Main(string[] args)
     {
 
         var menu = new MenuService();
         menu.Start();
     }
-<<<<<<< HEAD
-=======
 
     static int getUserActions()
     {
@@ -44,8 +43,6 @@ internal class Program
         InventoryRemovingProcess.beads += addingBeads;
         Console.WriteLine($"You have added {addingBeads} pcs. of {InventoryRemovingProcess.beadsName} beads successfully!");
         Console.WriteLine("____________________________________ \n");
-
-
 
     }
 

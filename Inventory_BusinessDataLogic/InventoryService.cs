@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace InventoryBusinessDataLogic
+namespace Inventory_BusinessDataLogic
 {
     public class InventoryService
     {
-        public List<ItemsDataService> BeadStocks { get; private set; } = new();
-        public List<ItemsDataService> CharmStocks { get; private set; } = new();
-
         public void AddItem(string type, string name, int qty)
         {
             var stockList = GetStockList(type);
@@ -23,7 +21,7 @@ namespace InventoryBusinessDataLogic
             }
             else
             {
-                stockList.Add(new InventoryItem(name, qty));
+                stockList.Add(new InventorySupplies(name, qty));
             }
         }
 
@@ -42,11 +40,13 @@ namespace InventoryBusinessDataLogic
             return false;
         }
 
-        public List<InventoryItem> GetStockList(string type)
+        public List<InventorySupplies> GetStockList(string type)
         {
-            return type.ToLower() == "bead" ? BeadStocks : CharmStocks;
+            return type.ToLower() == "bead" ? ItemStock.BeadStocks : ItemStock.CharmStocks;
         }
 
-        public int GetTotalStocks() => BeadStocks.Sum(i => i.Quantity) + CharmStocks.Sum(i => i.Quantity);
+        public int GetTotalStocks() => ItemStock.BeadStocks.Sum(i => i.Quantity) + ItemStock.CharmStocks.Sum(i => i.Quantity);
     }
-}
+    
+ }
+    

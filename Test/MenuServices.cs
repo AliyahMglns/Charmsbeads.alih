@@ -1,4 +1,6 @@
-﻿using InventoryBusinessDataLogic;
+﻿using InventoryDataService;
+using Inventory_BusinessDataLogic;
+using InventoryBusinessDataLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,8 +89,10 @@ namespace Test
             }
         }
 
-        private void AddItem(string type)
+        private void AddItem(string label)
         {
+            string type = label.Contains("Bead", StringComparison.OrdinalIgnoreCase) ? "bead" : "charm";
+
             Console.Write($"Enter {type} name: ");
             string name = Console.ReadLine();
             Console.Write($"Enter amount to add: ");
@@ -96,14 +100,18 @@ namespace Test
 
             inventoryService.AddItem(type, name, qty);
 
-            if (type == "bead") accountService.UpdateBeads(loggedInAccount, inventoryService.BeadStocks.Sum(b => b.Quantity));
-            else accountService.UpdateCharms(loggedInAccount, inventoryService.CharmStocks.Sum(c => c.Quantity));
+            if (type == "bead")
+                accountService.UpdateBeads(loggedInAccount, ItemStock.BeadStocks.Sum(b => b.Quantity));
+            else
+                accountService.UpdateCharms(loggedInAccount, ItemStock.CharmStocks.Sum(c => c.Quantity));
 
             Console.WriteLine($"Added {qty} {name} {type}(s).\n");
         }
 
-        private void RemoveItem(string type)
+        private void RemoveItem(string label)
         {
+            string type = label.Contains("Bead", StringComparison.OrdinalIgnoreCase) ? "bead" : "charm";
+
             Console.Write($"Enter {type} name: ");
             string name = Console.ReadLine();
             Console.Write($"Enter amount to remove: ");
@@ -113,8 +121,10 @@ namespace Test
 
             if (success)
             {
-                if (type == "bead") accountService.UpdateBeads(loggedInAccount, inventoryService.BeadStocks.Sum(b => b.Quantity));
-                else accountService.UpdateCharms(loggedInAccount, inventoryService.CharmStocks.Sum(c => c.Quantity));
+                if (type == "bead")
+                    accountService.UpdateBeads(loggedInAccount, ItemStock.BeadStocks.Sum(b => b.Quantity));
+                else
+                    accountService.UpdateCharms(loggedInAccount, ItemStock.CharmStocks.Sum(c => c.Quantity));
 
                 Console.WriteLine($"Removed {qty} {type}(s) of '{name}'.\n");
             }
@@ -123,15 +133,14 @@ namespace Test
                 Console.WriteLine("Failed to remove items. Not enough stock or invalid name.\n");
             }
         }
-
         private void ViewStocks()
         {
             Console.WriteLine("\nBead Stocks:");
-            foreach (var bead in inventoryService.BeadStocks)
+            foreach (var bead in ItemStock.BeadStocks)
                 Console.WriteLine($"- {bead.Name}: {bead.Quantity}");
 
             Console.WriteLine("\nCharm Stocks:");
-            foreach (var charm in inventoryService.CharmStocks)
+            foreach (var charm in ItemStock.CharmStocks)
                 Console.WriteLine($"- {charm.Name}: {charm.Quantity}");
 
             Console.WriteLine($"\nTotal Stock: {inventoryService.GetTotalStocks()}\n");
