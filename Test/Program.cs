@@ -1,51 +1,18 @@
-using Microsoft.VisualBasic;
-using System.ComponentModel.Design;
-using Inventory_BusinessDataLogic;
+using InventoryBusinessDataLogic;
 using System;
-
+using System.Runtime.CompilerServices;
+using System.Transactions;
+using Test;
 internal class Program
 {
-
-    static string[] actions = new string[] { "[1]Add Beads", "[2]Add Charms", "[3]Remove Beads Stocks", "[4]Remove Charm Stocks", "[5]View Stocks", "[6]Exit" };
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        Console.WriteLine("CharmBeads.alih INVENTORY");
-        Console.WriteLine("\nACTIONS");
 
-        displayActions();
-        int userInput = getUserActions();
-
-
-        while (userInput != 6) // 6 is Exit
-        {
-            switch (userInput)
-            {
-                case 1:
-                    addBeads();
-                    break;
-                case 2:
-                    addCharms();
-                    break;
-                case 3:
-                    removeBeadsStocks();
-                    break;
-                case 4:
-                    removeCharmStocks();
-                    break;
-                case 5:
-                    viewStocks();
-                    break;
-                default:
-                    Console.WriteLine("Invalid Number, please only enter number 1-6.");
-                    break;
-            }
-
-            displayActions();
-            userInput = getUserActions();
-        }
-
-        Console.WriteLine("Exiting...");
+        var menu = new MenuService();
+        menu.Start();
     }
+<<<<<<< HEAD
+=======
 
     static int getUserActions()
     {
@@ -61,7 +28,7 @@ internal class Program
         {
             Console.WriteLine(action);
         }
-        Console.WriteLine("______________________________________");
+        Console.WriteLine("____________________________________");
         Console.Write("\nEnter Action");
     }
 
@@ -76,7 +43,7 @@ internal class Program
 
         InventoryRemovingProcess.beads += addingBeads;
         Console.WriteLine($"You have added {addingBeads} pcs. of {InventoryRemovingProcess.beadsName} beads successfully!");
-        Console.WriteLine("______________________________________ \n");
+        Console.WriteLine("____________________________________ \n");
 
 
 
@@ -93,7 +60,7 @@ internal class Program
 
         InventoryRemovingProcess.charms += addingCharms;
         Console.WriteLine($"You have added {addingCharms} pcs. of {InventoryRemovingProcess.charmName} charm/s successfully!");
-        Console.WriteLine("______________________________________ \n");
+        Console.WriteLine("____________________________________ \n");
     }
 
     static void viewStocks()
@@ -112,12 +79,12 @@ internal class Program
 
         int totalStocks = InventoryRemovingProcess.charms + InventoryRemovingProcess.beads;
         Console.WriteLine("Total Stocks: " + totalStocks);
-        Console.WriteLine("______________________________________ \n");
+        Console.WriteLine("____________________________________ \n");
     }
 
     static void removeBeadsStocks()
     {
-        Console.WriteLine("______________________________________ \n");
+        Console.WriteLine("____________________________________ \n");
         Console.Write("\nEnter bead name: ");
         InventoryRemovingProcess.setBeadsName();
 
@@ -135,7 +102,7 @@ internal class Program
 
     static void removeCharmStocks()
     {
-        Console.WriteLine("______________________________________ \n");
+        Console.WriteLine("____________________________________ \n");
         Console.Write("\nEnter charm name: ");
         InventoryRemovingProcess.setCharmsName();
 
@@ -149,5 +116,6 @@ internal class Program
 
         }
     }
+
 
 }
