@@ -110,6 +110,13 @@ namespace Test
             {
                 stockList.Add(new InventorySupplies(name, qty));
             }
+
+            // Save to file
+            var storage = new BeadsStorage();
+            if (type == "bead")
+                storage.SaveBeads(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
+            else
+                storage.SaveCharms(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
         }
 
         private void RemoveItem(string label)
@@ -126,9 +133,15 @@ namespace Test
             if (success)
             {
                 if (type == "bead")
+                {
                     accountService.UpdateBeads(loggedInAccount, ItemStock.BeadStocks.Sum(b => b.Quantity));
+                    new BeadsStorage().SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+                }
                 else
+                {
                     accountService.UpdateCharms(loggedInAccount, ItemStock.CharmStocks.Sum(c => c.Quantity));
+                    new BeadsStorage().SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
+                }
 
                 Console.WriteLine($"Removed {qty} {type}(s) of '{name}'.\n");
             }
@@ -141,11 +154,11 @@ namespace Test
         {
             Console.WriteLine("\nBead Stocks:");
             foreach (var bead in ItemStock.BeadStocks)
-                Console.WriteLine($"- {bead.Name}: {bead.Quantity}");
+                Console.WriteLine($" {bead.Name}: {bead.Quantity}");
 
             Console.WriteLine("\nCharm Stocks:");
             foreach (var charm in ItemStock.CharmStocks)
-                Console.WriteLine($"- {charm.Name}: {charm.Quantity}");
+                Console.WriteLine($" {charm.Name}: {charm.Quantity}");
 
             Console.WriteLine($"\nTotal Stock: {inventoryService.GetTotalStocks()}\n");
         }
