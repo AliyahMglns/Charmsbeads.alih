@@ -4,8 +4,11 @@ using System.Transactions;
 using Inventory_BusinessDataLogic;
 using InventoryDataService;
 using Test;
+using static System.Net.Mime.MediaTypeNames;
+
 internal class Program
 {
+
     public static string[] actions = new string[] { "[1] Add Beads, [2] Add Charms, [3] Remove Bead Stocks, [4] Remove Charm Stocks, [5] View Stocks" };
     public static void Main(string[] args)
     {
