@@ -43,7 +43,7 @@ internal class Program
             Console.Write("\nADD OR RESTOCK AMOUNT OF BEAD/S: ");
             int addingBeads = Convert.ToInt16(Console.ReadLine());
             InventoryRemovingProcess.beadStocks.Add($"{InventoryRemovingProcess.beadsName}: {addingBeads}");
-            new BeadsStorage().SaveBeads(InventoryRemovingProcess.beadStocks);
+            BeadsStorage.SaveBeads(InventoryRemovingProcess.beadStocks);
 
             InventoryRemovingProcess.beads += addingBeads;
             Console.WriteLine($"You have added {addingBeads} pcs. of {InventoryRemovingProcess.beadsName} beads successfully!");
@@ -59,7 +59,7 @@ internal class Program
             Console.Write("\nADD OR RESTOCK AMOUNT OF CHARM/S: ");
             int addingCharms = Convert.ToInt16(Console.ReadLine());
             InventoryRemovingProcess.charmStocks.Add($"{InventoryRemovingProcess.charmName}: {addingCharms}");
-            new BeadsStorage().SaveCharms(InventoryRemovingProcess.charmStocks);
+            BeadsStorage.SaveCharms(InventoryRemovingProcess.charmStocks);
 
             InventoryRemovingProcess.charms += addingCharms;
             Console.WriteLine($"You have added {addingCharms} pcs. of {InventoryRemovingProcess.charmName} charm/s successfully!");

@@ -41,6 +41,7 @@
             label2 = new Label();
             listBoxBeads = new ListBox();
             listBoxCharms = new ListBox();
+            btnBack = new Button();
             SuspendLayout();
             // 
             // tbxBeadName
@@ -89,6 +90,7 @@
             btnAddBeads.Size = new Size(118, 45);
             btnAddBeads.TabIndex = 4;
             btnAddBeads.UseVisualStyleBackColor = false;
+            this.btnAddBeads.Click += new System.EventHandler(this.btnAddBeads_Click);
             // 
             // btnRemoveBeads
             // 
@@ -99,6 +101,7 @@
             btnRemoveBeads.Size = new Size(118, 45);
             btnRemoveBeads.TabIndex = 5;
             btnRemoveBeads.UseVisualStyleBackColor = true;
+            this.btnRemoveBeads.Click += new System.EventHandler(this.btnRemoveBeads_Click);
             // 
             // btnAddCharms
             // 
@@ -109,6 +112,7 @@
             btnAddCharms.Size = new Size(118, 45);
             btnAddCharms.TabIndex = 6;
             btnAddCharms.UseVisualStyleBackColor = true;
+            this.btnAddCharms.Click += new System.EventHandler(this.btnAddCharms_Click);
             // 
             // btnRemoveCharms
             // 
@@ -119,6 +123,8 @@
             btnRemoveCharms.Size = new Size(118, 45);
             btnRemoveCharms.TabIndex = 7;
             btnRemoveCharms.UseVisualStyleBackColor = true;
+            this.btnRemoveCharms.Click += new System.EventHandler(this.btnRemoveCharms_Click);
+
             // 
             // label1
             // 
@@ -158,6 +164,17 @@
             listBoxCharms.Size = new Size(391, 344);
             listBoxCharms.TabIndex = 11;
             // 
+            // btnBack
+            // 
+            btnBack.Font = new Font("Palatino Linotype", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBack.Location = new Point(22, 127);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(73, 36);
+            btnBack.TabIndex = 12;
+            btnBack.Text = "back";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -165,6 +182,7 @@
             BackgroundImage = Properties.Resources.mainform;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(987, 756);
+            Controls.Add(btnBack);
             Controls.Add(listBoxCharms);
             Controls.Add(listBoxBeads);
             Controls.Add(label2);
@@ -201,5 +219,6 @@
         private Label label2;
         private ListBox listBoxBeads;
         private ListBox listBoxCharms;
+        private Button btnBack;
     }
 }

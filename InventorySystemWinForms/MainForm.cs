@@ -13,7 +13,6 @@ namespace InventorySystemWinForms
         private readonly string _accountNumber;
         private InventoryService inventoryService = new();
         private AccountService accountService = new();
-        private BeadsStorage storage = new();
 
         public MainForm(string accountNumber)
         {
@@ -27,8 +26,8 @@ namespace InventorySystemWinForms
             ItemStock.BeadStocks.Clear();
             ItemStock.CharmStocks.Clear();
 
-            var beads = storage.LoadBeads();
-            var charms = storage.LoadCharms();
+            var beads = BeadsStorage.Beads();
+            var charms = BeadsStorage.Charms();
 
             foreach (var item in beads)
             {
@@ -59,61 +58,97 @@ namespace InventorySystemWinForms
 
         private void btnAddBeads_Click(object sender, EventArgs e)
         {
-            string name = tbxBeadName.Text;
+            string name = tbxBeadName.Text.Trim();
             int qty = int.Parse(tbxBeadQty.Text);
-            inventoryService.AddItem("bead", name, qty);
 
-            storage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+            inventoryService.AddItem("bead", name, qty);
+            BeadsStorage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
             accountService.UpdateBeads(_accountNumber, ItemStock.BeadStocks.Sum(b => b.Quantity));
-            RefreshDisplay();
+
+            LoadData(); 
+            MessageBox.Show("Beads added successfully!");
         }
 
         private void btnAddCharms_Click(object sender, EventArgs e)
         {
-            string name = tbxCharmName.Text;
+            string name = tbxCharmName.Text.Trim();
             int qty = int.Parse(tbxCharmQty.Text);
-            inventoryService.AddItem("charm", name, qty);
 
-            storage.SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
+            inventoryService.AddItem("charm", name, qty);
+            BeadsStorage.SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
             accountService.UpdateCharms(_accountNumber, ItemStock.CharmStocks.Sum(c => c.Quantity));
-            RefreshDisplay();
+
+            LoadData();
+            MessageBox.Show("Charms added successfully!");
+        }
+        private string ExtractItemName(string listItem)
+        {
+            return listItem.Split(':')[0].Trim();
         }
 
         private void btnRemoveBeads_Click(object sender, EventArgs e)
         {
-            string name = tbxBeadName.Text;
-            int qty = int.Parse(tbxBeadQty.Text);
-            if (inventoryService.RemoveItem("bead", name, qty))
+            if (listBoxBeads.SelectedItem == null)
             {
-                storage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
-                accountService.UpdateBeads(_accountNumber, ItemStock.BeadStocks.Sum(b => b.Quantity));
-                RefreshDisplay();
+                MessageBox.Show("Please select a bead to delete.");
+                return;
             }
-            else
+
+            string selected = listBoxBeads.SelectedItem.ToString();
+            string nameToRemove = ExtractItemName(selected);
+
+            var item = ItemStock.BeadStocks.FirstOrDefault(b => b.Name.Equals(nameToRemove, StringComparison.OrdinalIgnoreCase));
+            if (item != null)
             {
-                MessageBox.Show("Error removing beads.");
+                ItemStock.BeadStocks.Remove(item);
+                BeadsStorage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+                accountService.UpdateBeads(_accountNumber, ItemStock.BeadStocks.Sum(b => b.Quantity));
+                LoadData();
+                MessageBox.Show($"🎀 Bye-bye, {nameToRemove} beads! We'll miss your sparkle.");
             }
         }
 
+
         private void btnRemoveCharms_Click(object sender, EventArgs e)
         {
-            string name = tbxCharmName.Text;
-            int qty = int.Parse(tbxCharmQty.Text);
-            if (inventoryService.RemoveItem("charm", name, qty))
+            if (listBoxCharms.SelectedItem == null)
             {
-                storage.SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
-                accountService.UpdateCharms(_accountNumber, ItemStock.CharmStocks.Sum(c => c.Quantity));
-                RefreshDisplay();
+                MessageBox.Show("Please select a charm to delete.");
+                return;
             }
-            else
+
+            string selected = listBoxCharms.SelectedItem.ToString();
+            string nameToRemove = selected.Split(':')[0].Trim();
+
+            var item = ItemStock.CharmStocks.FirstOrDefault(c => c.Name.Equals(nameToRemove, StringComparison.OrdinalIgnoreCase));
+            if (item != null)
             {
-                MessageBox.Show("Error removing charms.");
+                ItemStock.CharmStocks.Remove(item);
+                BeadsStorage.SaveCharms(ItemStock.CharmStocks
+                    .Select(c => $"{c.Name}: {c.Quantity}")
+                    .ToList());
+                accountService.UpdateCharms(_accountNumber, ItemStock.CharmStocks.Sum(c => c.Quantity));
+                LoadData();
+                MessageBox.Show($"🎀 Bye-bye, {nameToRemove} charm!");
             }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Optional
+            LoadData();
+
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            LoginForm loginFrm = new LoginForm();
+            loginFrm.Show();
+            this.Hide();
+        }
+
+        private void listBoxBeads_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -16,10 +16,14 @@ namespace InventoryDataService
         // private const string BeadsFileTxt = "beadStocks.txt";
         // private const string CharmsFileTxt = "charmStocks.txt";
 
-        private readonly string connectionString = "Data Source = LAPTOP-9O352VAE\\SQLEXPRESS; Initial Catalog = charmBeads; Integrated Security = True; TrustServerCertificate = True;";
+        private static readonly string connectionString = "Data Source = LAPTOP-9O352VAE\\SQLEXPRESS; Initial Catalog = charmBeads; Integrated Security = True; TrustServerCertificate = True;";
 
+        public static List<string> Beads()
+        {
+            return LoadBeads();
+        }
 
-        public List<string> LoadBeads()
+        private static List<string> LoadBeads()
         {
             // JSON loading
             //if (File.Exists(BeadsFileJson))
@@ -47,7 +51,12 @@ namespace InventoryDataService
             return beads;
         }
 
-        public List<string> LoadCharms()
+        public static List<string> Charms()
+        {
+            return LoadCharms();
+        }
+
+        public static List<string> LoadCharms()
         {
             //// JSON loading
             //if (File.Exists(CharmsFileJson))
@@ -76,7 +85,7 @@ namespace InventoryDataService
 
         }
 
-        public void SaveBeads(List<string> beads)
+        public static void SaveBeads(List<string> beads)
         {
             //// JSON saving
             //var json = JsonSerializer.Serialize(beads, new JsonSerializerOptions { WriteIndented = true });
@@ -99,11 +108,13 @@ namespace InventoryDataService
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@qty", qty);
                 cmd.ExecuteNonQuery();
-                conn.Close();
             }
+
+            conn.Close(); 
         }
 
-        public void SaveCharms(List<string> charms)
+
+        public static void SaveCharms(List<string> charms)
         {
             //// JSON saving
             //var json = JsonSerializer.Serialize(charms, new JsonSerializerOptions { WriteIndented = true });
@@ -126,8 +137,10 @@ namespace InventoryDataService
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@qty", qty);
                 cmd.ExecuteNonQuery();
-                conn.Close();
             }
+
+            conn.Close();
+
         }
     }
 }

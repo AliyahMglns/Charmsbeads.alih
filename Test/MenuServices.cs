@@ -114,9 +114,9 @@ namespace Test
             // Save to file
             var storage = new BeadsStorage();
             if (type == "bead")
-                storage.SaveBeads(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
+                BeadsStorage.SaveBeads(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
             else
-                storage.SaveCharms(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
+                BeadsStorage.SaveCharms(stockList.Select(s => $"{s.Name}: {s.Quantity}").ToList());
         }
 
         private void RemoveItem(string label)
@@ -135,12 +135,12 @@ namespace Test
                 if (type == "bead")
                 {
                     accountService.UpdateBeads(loggedInAccount, ItemStock.BeadStocks.Sum(b => b.Quantity));
-                    new BeadsStorage().SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+                    BeadsStorage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
                 }
                 else
                 {
                     accountService.UpdateCharms(loggedInAccount, ItemStock.CharmStocks.Sum(c => c.Quantity));
-                    new BeadsStorage().SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
+                    BeadsStorage.SaveCharms(ItemStock.CharmStocks.Select(c => $"{c.Name}: {c.Quantity}").ToList());
                 }
 
                 Console.WriteLine($"Removed {qty} {type}(s) of '{name}'.\n");

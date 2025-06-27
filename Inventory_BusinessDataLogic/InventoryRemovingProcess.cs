@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using InventoryDataService;
+using static InventorySupplies;
 
 namespace Inventory_BusinessDataLogic
 {
@@ -14,12 +15,11 @@ namespace Inventory_BusinessDataLogic
         public static int beads = 0;
         public static int charms = 0;
 
-        public static BeadsStorage fileStorage = new BeadsStorage();
 
         static InventoryRemovingProcess()
         {
-            beadStocks = fileStorage.LoadBeads();
-            charmStocks = fileStorage.LoadCharms();
+            beadStocks = BeadsStorage.Beads();
+            charmStocks = BeadsStorage.Charms();
             beads = beadStocks.Sum(s => int.Parse(s.Split(':')[1].Trim()));
             charms = charmStocks.Sum(s => int.Parse(s.Split(':')[1].Trim()));
         }
@@ -28,69 +28,39 @@ namespace Inventory_BusinessDataLogic
         {
             if (userAction == Actions.RemoveBeadStocks)
             {
-                for (int i = 0; i < beadStocks.Count; i++)
+                var bead = ItemStock.BeadStocks.FirstOrDefault(b => b.Name.Equals(beadsName, StringComparison.OrdinalIgnoreCase));
+                if (bead != null && bead.Quantity >= amountDeduct)
                 {
-                    string[] parts = beadStocks[i].Split(':');
-                    string name = parts[0].Trim();
-                    beads = int.Parse(parts[1].Trim());
+                    bead.Quantity -= amountDeduct;
+                    if (bead.Quantity == 0)
+                        ItemStock.BeadStocks.Remove(bead);
 
-                    if (name.Equals(beadsName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (amountDeduct <= beads)
-                        {
-                            beads -= amountDeduct;
-
-                            if (beads > 0)
-                            {
-                                beadStocks[i] = $"{name}: {beads}";
-                            }
-                            else
-                            {
-                                beadStocks.RemoveAt(i);
-                            }
-
-                            fileStorage.SaveBeads(beadStocks);
-                            return true;
-                        }
-                    }
+                    BeadsStorage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+                    return true;
                 }
             }
             return false;
         }
+
 
         public static bool UpdateCharmStocks(Actions userAction, int amountDeduct)
         {
             if (userAction == Actions.RemoveCharmStocks)
             {
-                for (int i = 0; i < charmStocks.Count; i++)
+                var charm = ItemStock.BeadStocks.FirstOrDefault(b => b.Name.Equals(charmName, StringComparison.OrdinalIgnoreCase));
+                if (charm != null && charm.Quantity >= amountDeduct)
                 {
-                    string[] parts = charmStocks[i].Split(':');
-                    string name = parts[0].Trim();
-                    charms = int.Parse(parts[1].Trim());
+                    charm.Quantity -= amountDeduct;
+                    if (charm.Quantity == 0)
+                        ItemStock.BeadStocks.Remove(charm);
 
-                    if (name.Equals(charmName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (amountDeduct <= charms)
-                        {
-                            charms -= amountDeduct;
-
-                            if (charms > 0)
-                            {
-                                charmStocks[i] = $"{name}: {charms}";
-                            }
-                            else
-                            {
-                                charmStocks.RemoveAt(i);
-                            }
-
-                            fileStorage.SaveCharms(charmStocks);
-                            return true;
-                        }
-                    }
+                    BeadsStorage.SaveBeads(ItemStock.CharmStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
+                    return true;
                 }
             }
             return false;
         }
+    
 
         public static void setBeadsName()
         {
@@ -102,4 +72,5 @@ namespace Inventory_BusinessDataLogic
             charmName = Console.ReadLine();
         }
     }
+
 }
