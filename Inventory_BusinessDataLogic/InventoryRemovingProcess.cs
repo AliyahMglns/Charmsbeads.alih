@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using InventoryBusinessDataLogic;
 using InventoryDataService;
 using static InventorySupplies;
 

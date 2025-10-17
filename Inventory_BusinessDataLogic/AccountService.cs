@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InventoryBusinessDataLogic;
+using MailKit.Net.Smtp;
+using MimeKit;
+using static System.Net.WebRequestMethods;
+using System.ComponentModel;
 
 namespace InventoryBusinessDataLogic
 {
+   
     public class AccountService
     {
         private List<InventoryDataService.InventoryAccount> accounts = new();
+
         public AccountService()
         {
             accounts.Add(new InventoryAccount
@@ -44,9 +47,11 @@ namespace InventoryBusinessDataLogic
             if (acc != null) acc.Charms = charms;
         }
 
+        // Not implemented yet
         public void UpdateBeads(string loggedInAccount, object value)
         {
             throw new NotImplementedException();
         }
     }
 }
+

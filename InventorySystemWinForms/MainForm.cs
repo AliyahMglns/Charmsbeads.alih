@@ -64,6 +64,7 @@ namespace InventorySystemWinForms
             inventoryService.AddItem("bead", name, qty);
             BeadsStorage.SaveBeads(ItemStock.BeadStocks.Select(b => $"{b.Name}: {b.Quantity}").ToList());
             accountService.UpdateBeads(_accountNumber, ItemStock.BeadStocks.Sum(b => b.Quantity));
+            new EmailService().SendEmail();
 
             LoadData(); 
             MessageBox.Show("Beads added successfully!");
