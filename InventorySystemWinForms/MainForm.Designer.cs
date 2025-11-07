@@ -1,16 +1,14 @@
-﻿namespace InventorySystemWinForms
-{
-    partial class MainForm
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+﻿using System.Windows.Forms;
+using InventoryBusinessDataLogic;
+using Microsoft.Extensions.DependencyInjection; 
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+namespace InventorySystemWinForms
+{
+    public partial class MainForm : Form
+    {
+
+            private System.ComponentModel.IContainer components = null;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))

@@ -1,27 +1,29 @@
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Runtime.CompilerServices;
-using System.Transactions;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 using Inventory_BusinessDataLogic;
 using InventoryDataService;
 using Test;
 using static System.Net.Mime.MediaTypeNames;
-
+using InventoryBusinessDataLogic;
 internal class Program
-{
 
+{
     public static string[] actions = new string[] { "[1] Add Beads, [2] Add Charms, [3] Remove Bead Stocks, [4] Remove Charm Stocks, [5] View Stocks" };
+
     public static void Main(string[] args)
     {
+
 
         var menu = new MenuService();
         menu.Start();
 
-
         static int getUserActions()
         {
             Console.Write(": ");
-            int userAction = Convert.ToInt16(Console.ReadLine());
 
+            int userAction = Convert.ToInt16(Console.ReadLine());
             return userAction;
         }
 
@@ -119,8 +121,5 @@ internal class Program
 
             }
         }
-
-
     }
-
 }
