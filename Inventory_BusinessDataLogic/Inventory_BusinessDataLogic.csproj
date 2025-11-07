@@ -16,4 +16,13 @@
     <ProjectReference Include="..\InventoryDataService\InventoryDataService.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="EmailService.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="EmailSettings.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>
